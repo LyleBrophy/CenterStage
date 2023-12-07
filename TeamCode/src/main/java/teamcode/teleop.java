@@ -18,8 +18,8 @@ public class teleop extends LinearOpMode{
     public DcMotor motorBL;
 //    public DcMotor[] motors = new DcMotor[4];
     DcMotor body;
-    CRServo wrist, arm, rightHanger, leftHanger, grabbie;
-    Servo launcher;
+    CRServo wrist, rightHanger, leftHanger, grabbie;
+    CRServo launcher;
 
     public double speedMode = 1;
 
@@ -29,11 +29,11 @@ public class teleop extends LinearOpMode{
         motorBR = hardwareMap.get(DcMotor.class, "motorBL");
         motorBL = hardwareMap.get(DcMotor.class, "motorBR");
         body = hardwareMap.get(DcMotor.class, "body");
-        arm = hardwareMap.get(CRServo.class, "arm");
+//        arm = hardwareMap.get(CRServo.class, "arm");
         wrist = hardwareMap.get(CRServo.class, "wrist");
         rightHanger = hardwareMap.get(CRServo.class, "rightHanger");
         leftHanger = hardwareMap.get(CRServo.class, "leftHanger");
-        launcher = hardwareMap.get(Servo.class, "launcher");
+        launcher = hardwareMap.get(CRServo.class, "launcher");
         grabbie = hardwareMap.get(CRServo.class, "grabbie");
 
         motorBL.setDirection(DcMotor.Direction.FORWARD);
@@ -116,13 +116,13 @@ public class teleop extends LinearOpMode{
         } else if (gamepad1.left_bumper == false && gamepad1.right_bumper == false) {
             body.setPower(0);
         }
-        if (gamepad1.dpad_up) {
-            arm.setPower(1);
-        } else if (gamepad1.dpad_down) {
-            arm.setPower(-1);
-        } else if (gamepad1.dpad_up == false && gamepad1.dpad_down == false) {
-            arm.setPower(0);
-        }
+//        if (gamepad1.dpad_up) {
+//            arm.setPower(1);
+//        } else if (gamepad1.dpad_down) {
+//            arm.setPower(-1);
+//        } else if (gamepad1.dpad_up == false && gamepad1.dpad_down == false) {
+//            arm.setPower(0);
+//        }
         if (gamepad1.x) {
             wrist.setPower(1);
         } else if (gamepad1.y) {
@@ -138,9 +138,9 @@ public class teleop extends LinearOpMode{
             grabbie.setPower(0);
         }
         if (gamepad1.dpad_left) {
-            launcher.setPosition(1);
+            launcher.setPower(1);
         } else {
-            launcher.setPosition(0);
+            launcher.setPower(0);
         }
 
         }
