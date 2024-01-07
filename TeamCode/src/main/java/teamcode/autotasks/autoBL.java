@@ -133,33 +133,47 @@ public class autoBL extends LinearOpMode {
 
         switch (detectedLocation) {
             case LEFT:
+                CloseGrabbie();
                 IMUDrive(.5,12,0);
                 IMUTurn(.5, 32);
                 IMUDrive(.5,16,32);
                 IMUDrive(.5,-25, 32);
                 IMUTurn(.5,90);
-                IMUDrive(.5,20,90);
+                IMUDrive(.5,42,90);
                 IMUHold(.5,90,1);
-                StrafyIMU(.5,-20,90);
-
+                Strafe(.5,-26);
+                grabbie.setPower(1);
+//                IMUDrive(.4,1,90);
+                moveBody(-0.5, 30);
+                sleep(100);
+                moveWrist(1,800);
+                sleep(500);
+                grabbie.setPower(-1);
+                sleep(550);
+                sleep(500);
+                moveWrist(-1,500);
                 break;
             case MIDDLE:
+                CloseGrabbie();
                 IMUDrive(.4,34,0);
                 IMUHold(.5,0,1);
-                IMUDrive(.4,-31,0);
+                IMUDrive(.4,-25,0);
                 IMUTurn(0.5,90);
                 IMUHold(0.5,90, 1);
-                IMUDrive(0.5,20, 90);
+                IMUDrive(0.5,38, 90);
                 IMUHold(.5,90,1);
-                StrafyIMU(.5,-20,90);
-                //was 75
-//                Strafe(0.5, 20);
-//                IMUHold(0.4,90,1);
-//                setWrist(1, 500);
-//                OpenGrabbie();
-
+                Strafe(0.5, -28.5);
+                grabbie.setPower(1);
+                moveBody(-0.5, 30);
+                sleep(100);
+                moveWrist(1,800);
+                sleep(500);
+                grabbie.setPower(-1);
+                sleep(550);
+                moveWrist(-1,500);
                 break;
             case RIGHT:
+                CloseGrabbie();
                 IMUDrive(.4,16,0);
                 IMUHold(.4,0,1);
                 IMUTurn(.4,-32);
@@ -169,9 +183,17 @@ public class autoBL extends LinearOpMode {
                 IMUDrive(.4,-28,-32);
                 IMUTurn(.4,90);
                 IMUHold(.4,90,1);
-                IMUDrive(.4,20,90);
+                IMUDrive(.4,32,90);
                 IMUHold(.5,90,1);
-                StrafyIMU(.5,-20,90);
+                Strafe(0.5, -41.5);
+                grabbie.setPower(1);
+                moveBody(-0.5, 30);
+                sleep(100);
+                moveWrist(1,800);
+                sleep(500);
+                grabbie.setPower(-1);
+                sleep(550);
+                moveWrist(-1,500);
                 break;
         }
 
@@ -450,5 +472,25 @@ public class autoBL extends LinearOpMode {
     {
         grabbie.setPower(1);
         sleep(500);
+    }
+    public void moveWrist(int power, int time)
+    {
+        wrist.setPower(-power);
+        sleep(time);
+        wrist.setPower(0);
+    }
+    public void moveBody(double power, double inches)
+    {
+        int move = (int)(Math.round(inches * conversions));
+        body.setTargetPosition(body.getCurrentPosition() +move);
+        body.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        body.setPower(power);
+        while (body.isBusy())
+        {
+            if(exit)
+            {
+                body.setPower(0);
+            }
+        }
     }
 }

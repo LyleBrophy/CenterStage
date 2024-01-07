@@ -25,23 +25,23 @@ public class autoBR extends LinearOpMode {
     CRServo launcher;
     private CRServo grabbie;
     private BNO055IMU imu = null;
-    private double          robotHeading  = 0;
-    private double          headingOffset = 0;
-    private double          headingError  = 0;
+    private double robotHeading = 0;
+    private double headingOffset = 0;
+    private double headingError = 0;
 
-    private double  targetHeading = 0;
-    private double  driveSpeed    = 0;
-    private double  turnSpeed     = 0;
-    private double  leftSpeed     = 0;
-    private double  rightSpeed    = 0;
-    private int     frontleftTarget    = 0;
-    private int     frontrightTarget   = 0;
-    private int     backleftTarget    = 0;
-    private int     backrightTarget   = 0;
+    private double targetHeading = 0;
+    private double driveSpeed = 0;
+    private double turnSpeed = 0;
+    private double leftSpeed = 0;
+    private double rightSpeed = 0;
+    private int frontleftTarget = 0;
+    private int frontrightTarget = 0;
+    private int backleftTarget = 0;
+    private int backrightTarget = 0;
     Integer cpr = 570; //counts per rotation
     Integer gearRatio = 1;
     Double diameter = 4.125;
-    Double cpi = (cpr * gearRatio)/(Math.PI * diameter); //counts per inch
+    Double cpi = (cpr * gearRatio) / (Math.PI * diameter); //counts per inch
     Double meccyBias = 0.9;
     Double bias = 0.8; //default 0.8
     Double conversions = cpi * bias;
@@ -55,22 +55,23 @@ public class autoBR extends LinearOpMode {
     Integer COUNTS_PER_MOTOR_REV = 570; //counts per rotation
     Integer DRIVE_GEAR_REDUCTION = 1;
     Double WHEEL_DIAMETER_INCHES = 4.125;
-    Double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION)/(Math.PI * WHEEL_DIAMETER_INCHES); //counts per inch
+    Double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (Math.PI * WHEEL_DIAMETER_INCHES); //counts per inch
     // These constants define the desired driving/control characteristics
     // They can/should be tweaked to suit the specific robot drive train.
-    static final double     DRIVE_SPEED             = 0.4;     // Max driving speed for better distance accuracy.
-    static final double     TURN_SPEED              = 0.2;     // Max Turn speed to limit turn rate
-    static final double     HEADING_THRESHOLD       = 1.0 ;    // How close must the heading get to the target before moving to next step.
+    static final double DRIVE_SPEED = 0.4;     // Max driving speed for better distance accuracy.
+    static final double TURN_SPEED = 0.2;     // Max Turn speed to limit turn rate
+    static final double HEADING_THRESHOLD = 1.0;    // How close must the heading get to the target before moving to next step.
     // Requiring more accuracy (a smaller number) will often make the turn take longer to get into the final position.
     // Define the Proportional control coefficient (or GAIN) for "heading control".
     // We define one value when Turning (larger errors), and the other is used when Driving straight (smaller errors).
     // Increase these numbers if the heading does not corrects strongly enough (eg: a heavy robot or using tracks)
     // Decrease these numbers if the heading does not settle on the correct value (eg: very agile robot with omni wheels)
-    static final double     P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable
-    static final double     P_DRIVE_GAIN           = 0.03;     // Larger is more responsive, but also less stable
+    static final double P_TURN_GAIN = 0.02;     // Larger is more responsive, but also less stable
+    static final double P_DRIVE_GAIN = 0.03;     // Larger is more responsive, but also less stable
     static final double P_DRIVE_COEFF = 0.15;
 
     private TrianglynotDuckyVisionBR visionSystem;
+
     @Override
     public void runOpMode() {
         // Initialize the drive system variables.
@@ -133,32 +134,69 @@ public class autoBR extends LinearOpMode {
 
         switch (detectedLocation) {
             case LEFT:
-                IMUDrive(.4,16,0);
-                IMUHold(.4,0,1);
-                IMUTurn(.4,-32);
-                IMUHold(.4,-32,1);
-                IMUDrive(.4,16,-32);
-                IMUHold(.4,-32,1);
-                IMUDrive(.4,-28,-32);
-                IMUTurn(.4,90);
-                IMUHold(.4,90,1);
-                IMUDrive(.4,90,90);
+                closeGrabbie();
+                IMUDrive(.5,19,0);
+                IMUTurn(.5, 58);
+                IMUHold(.5,58,1);
+                IMUDrive(.5,13,58);
+                IMUDrive(.5,-30, 58);
+                IMUTurn(.5,90);
+                IMUHold(0.5,90,1);
+                Strafe(.5,5);
+                IMUDrive(.5,107,90);
+                IMUHold(.5,95,1);
+                Strafe(.5,-23.5);
+                grabbie.setPower(1);
+                moveArm(-0.5, 30);
+                sleep(100);
+                moveWrist(1, 800);
+                sleep(500);
+                grabbie.setPower(-1);
+                sleep(550);
+                moveWrist(-1, 500);
                 break;
             case MIDDLE:
-                IMUDrive(.4,34,0);
-                IMUHold(.5,0,1);
-                IMUDrive(.4,-31,0);
-                IMUTurn(0.5,90);
-                IMUHold(0.5,90, 1);
-                IMUDrive(0.5,83, 90);
+                closeGrabbie();
+                IMUDrive(.4, 34, 0);
+                IMUHold(.5, 0, 1);
+                IMUDrive(.4, -28, 0);
+                IMUTurn(0.5, 90);
+                IMUHold(0.5, 90, 1);
+                IMUDrive(0.5, 92.5, 90);
+                IMUHold(.4, 90, 1);
+                Strafe(.5, -38);
+                grabbie.setPower(1);
+                moveArm(-0.5, 30);
+                sleep(100);
+                moveWrist(1, 800);
+                sleep(500);
+                grabbie.setPower(-1);
+                sleep(550);
+                moveWrist(-1, 500);
                 break;
             case RIGHT:
-                IMUDrive(.5,12,0);
-                IMUTurn(.5, 32);
-                IMUDrive(.5,16,32);
-                IMUDrive(.5,-25, 32);
-                IMUTurn(.5,90);
-                IMUDrive(.5,83,90);
+                closeGrabbie();
+                IMUDrive(.4, 16, 0);
+                IMUHold(.4, 0, 1);
+                IMUTurn(.4, -22);
+                IMUHold(.4, -22, 1);
+                IMUDrive(.4, 11, -22);
+                IMUHold(.4, -22, 1);
+                IMUDrive(.4, -23, -22);
+                IMUTurn(.4, 90);
+                IMUHold(.4, 90, 1);
+                Strafe(0.5,1);
+                IMUDrive(.4, 87.5, 90);
+                IMUHold(0.4,90,1);
+                Strafe(0.5,-44.5);
+                grabbie.setPower(1);
+                moveArm(-0.5, 30);
+                sleep(100);
+                moveWrist(1, 800);
+                sleep(500);
+                grabbie.setPower(-1);
+                sleep(550);
+                moveWrist(-1, 500);
                 break;
         }
 
@@ -170,7 +208,7 @@ public class autoBR extends LinearOpMode {
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
             // Determine new target position, and pass to motor controller
-            int moveCounts = (int)(distance * COUNTS_PER_INCH);
+            int moveCounts = (int) (distance * COUNTS_PER_INCH);
             frontleftTarget = motorFL.getCurrentPosition() + moveCounts;
             frontrightTarget = motorFR.getCurrentPosition() + moveCounts;
             backleftTarget = motorBL.getCurrentPosition() + moveCounts;
@@ -265,6 +303,7 @@ public class autoBR extends LinearOpMode {
         motorBR.setPower(0);
         motorBL.setPower(0);
     }
+
     private double getError(double targetAngle) {
         double robotError = targetAngle - getCurrentHeading();
         while (robotError > 180) robotError -= 360;
@@ -280,6 +319,7 @@ public class autoBR extends LinearOpMode {
     private double getSteer(double error, double PCoeff) {
         return Range.clip(error * PCoeff, -1, 1);
     }
+
     public void IMUTurn(double maxTurnSpeed, double heading) {
         // Run getSteeringCorrection() once to pre-calculate the current error
         getSteeringCorrection(heading, P_DRIVE_GAIN);
@@ -297,16 +337,17 @@ public class autoBR extends LinearOpMode {
         // Stop all motion;
         moveRobot(0, 0);
     }
+
     /**
-     *  Method to obtain & hold a heading for a finite amount of time
-     *  Move will stop once the requested time has elapsed
-     *  This function is useful for giving the robot a moment to stabilize it's heading between movements.
+     * Method to obtain & hold a heading for a finite amount of time
+     * Move will stop once the requested time has elapsed
+     * This function is useful for giving the robot a moment to stabilize it's heading between movements.
      *
-     * @param maxTurnSpeed      Maximum differential turn speed (range 0 to +1.0)
-     * @param heading    Absolute Heading Angle (in Degrees) relative to last gyro reset.
-     *                   0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
-     *                   If a relative angle is required, add/subtract from current heading.
-     * @param holdTime   Length of time (in seconds) to hold the specified heading.
+     * @param maxTurnSpeed Maximum differential turn speed (range 0 to +1.0)
+     * @param heading      Absolute Heading Angle (in Degrees) relative to last gyro reset.
+     *                     0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
+     *                     If a relative angle is required, add/subtract from current heading.
+     * @param holdTime     Length of time (in seconds) to hold the specified heading.
      */
     public void IMUHold(double maxTurnSpeed, double heading, double holdTime) {
         ElapsedTime holdTimer = new ElapsedTime();
@@ -326,12 +367,13 @@ public class autoBR extends LinearOpMode {
         moveRobot(0, 0);
     }
     // **********  LOW Level driving functions.  ********************
+
     /**
      * This method uses a Proportional Controller to determine how much steering correction is required.
      *
-     * @param desiredHeading        The desired absolute heading (relative to last heading reset)
-     * @param proportionalGain      Gain factor applied to heading error to obtain turning power.
-     * @return                      Turning power needed to get to required heading.
+     * @param desiredHeading   The desired absolute heading (relative to last heading reset)
+     * @param proportionalGain Gain factor applied to heading error to obtain turning power.
+     * @return Turning power needed to get to required heading.
      */
     public double getSteeringCorrection(double desiredHeading, double proportionalGain) {
         targetHeading = desiredHeading;  // Save for telemetry
@@ -340,26 +382,27 @@ public class autoBR extends LinearOpMode {
         // Determine the heading current error
         headingError = targetHeading - robotHeading;
         // Normalize the error to be within +/- 180 degrees
-        while (headingError > 180)  headingError -= 360;
+        while (headingError > 180) headingError -= 360;
         while (headingError <= -180) headingError += 360;
         // Multiply the error by the gain to determine the required steering correction/  Limit the result to +/- 1.0
         return Range.clip(headingError * proportionalGain, -1, 1);
     }
+
     /**
      * This method takes separate drive (fwd/rev) and turn (right/left) requests,
      * combines them, and applies the appropriate speed commands to the left and right wheel motors.
+     *
      * @param drive forward motor speed
      * @param turn  clockwise turning motor speed.
      */
     public void moveRobot(double drive, double turn) {
         driveSpeed = drive;     // save this value as a class member so it can be used by telemetry.
-        turnSpeed  = turn;      // save this value as a class member so it can be used by telemetry.
-        leftSpeed  = drive - turn;
+        turnSpeed = turn;      // save this value as a class member so it can be used by telemetry.
+        leftSpeed = drive - turn;
         rightSpeed = drive + turn;
         // Scale speeds down if either one exceeds +/- 1.0;
         double max = Math.max(Math.abs(leftSpeed), Math.abs(rightSpeed));
-        if (max > 1.0)
-        {
+        if (max > 1.0) {
             leftSpeed /= max;
             rightSpeed /= max;
         }
@@ -368,32 +411,35 @@ public class autoBR extends LinearOpMode {
         motorBL.setPower(leftSpeed);
         motorBR.setPower(rightSpeed);
     }
+
     /**
-     *  Display the various control parameters while driving
+     * Display the various control parameters while driving
      *
-     * @param straight  Set to true if we are driving straight, and the encoder positions should be included in the telemetry.
+     * @param straight Set to true if we are driving straight, and the encoder positions should be included in the telemetry.
      */
     private void sendTelemetry(boolean straight) {
         if (straight) {
             telemetry.addData("Motion", "Drive Straight");
-            telemetry.addData("Target Pos L:R",  "%7d:%7d",      frontleftTarget,  frontrightTarget, backleftTarget, backrightTarget);
-            telemetry.addData("Actual Pos L:R",  "%7d:%7d",      motorFL.getCurrentPosition(),
+            telemetry.addData("Target Pos L:R", "%7d:%7d", frontleftTarget, frontrightTarget, backleftTarget, backrightTarget);
+            telemetry.addData("Actual Pos L:R", "%7d:%7d", motorFL.getCurrentPosition(),
                     motorFR.getCurrentPosition(), motorBL.getCurrentPosition(), motorBR.getCurrentPosition());
         } else {
             telemetry.addData("Motion", "Turning");
         }
         telemetry.addData("Angle Target:Current", "%5.2f:%5.0f", targetHeading, robotHeading);
-        telemetry.addData("Error:Steer",  "%5.1f:%5.1f", headingError, turnSpeed);
+        telemetry.addData("Error:Steer", "%5.1f:%5.1f", headingError, turnSpeed);
         telemetry.addData("Wheel Speeds L:R.", "%5.2f : %5.2f", leftSpeed, rightSpeed);
         telemetry.update();
     }
+
     /**
      * read the raw (un-offset Gyro heading) directly from the IMU
      */
     public double getRawHeading() {
-        Orientation angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         return angles.firstAngle;
     }
+
     /**
      * Reset the "offset" heading back to zero
      */
@@ -402,13 +448,13 @@ public class autoBR extends LinearOpMode {
         headingOffset = getRawHeading();
         robotHeading = 0;
     }
-    public void Strafe (double power,double inches)
-    {
-        int move = (int)(Math.round(inches * conversions));
+
+    public void Strafe(double power, double inches) {
+        int move = (int) (Math.round(inches * conversions));
         motorFL.setTargetPosition(motorFL.getCurrentPosition() - move);
         motorFR.setTargetPosition(motorFR.getCurrentPosition() + move);
         motorBL.setTargetPosition(motorBL.getCurrentPosition() + move);
-        motorBR.setTargetPosition(motorBR.getCurrentPosition() -move);
+        motorBR.setTargetPosition(motorBR.getCurrentPosition() - move);
         motorFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -417,10 +463,8 @@ public class autoBR extends LinearOpMode {
         motorFR.setPower(-power);
         motorBR.setPower(-power);
         motorBL.setPower(-power);
-        while (motorFL.isBusy() && motorFR.isBusy() && motorBL.isBusy() && motorBR.isBusy())
-        {
-            if(exit)
-            {
+        while (motorFL.isBusy() && motorFR.isBusy() && motorBL.isBusy() && motorBR.isBusy()) {
+            if (exit) {
                 motorBL.setPower(0);
                 motorBR.setPower(0);
                 motorFR.setPower(0);
@@ -429,25 +473,31 @@ public class autoBR extends LinearOpMode {
         }
     }
 
-    public void OpenGrabbie ()
-    {
+    public void openGrabbie() {
         grabbie.setPower(-1);
         sleep(500);
     }
-    public void CloseGrabbie ()
-    {
+
+    public void closeGrabbie() {
         grabbie.setPower(1);
         sleep(500);
     }
-    public void setWrist (int power, int time)
-    {
-        wrist.setPower(power);
+
+    public void moveWrist(int power, int time) {
+        wrist.setPower(-power);
         sleep(time);
         wrist.setPower(0);
     }
-    public void moveArm (int power, int time){
+
+    public void moveArm(double power, double inches) {
+        int move = (int) (Math.round(inches * conversions));
+        body.setTargetPosition(body.getCurrentPosition() + move);
+        body.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         body.setPower(power);
-        sleep(time);
-        body.setPower(0);
+        while (body.isBusy()) {
+            if (exit) {
+                body.setPower(0);
+            }
+        }
     }
 }

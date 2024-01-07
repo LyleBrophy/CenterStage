@@ -63,10 +63,10 @@ public class TrianglynotDuckyVisionBL {
         }
 
         int dif = middleBoxValue - leftBoxValue;
-        if (dif <= -50) {
+        if (dif <= -80) {
             currentDetection = triangleLocation.MIDDLE;
             opMode.telemetry.addLine("MIDDLE");
-        } else if (Math.abs(dif) > 100) {
+        } else if (Math.abs(dif) > 150) {
             currentDetection = triangleLocation.LEFT;
             opMode.telemetry.addLine("LEFT");
         } else {

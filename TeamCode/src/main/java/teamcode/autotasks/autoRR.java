@@ -135,11 +135,11 @@ public class autoRR extends LinearOpMode {
 
         waitForStart();
         triangleLocation detectedLocation = visionSystem.getCurrentDetection();
-
+        moveArm(-0.5,5);
 
         switch (detectedLocation) {
             case LEFT:
-                CloseGrabbie();
+                closeGrabbie();
                 IMUDrive(.5,19,0);
                 IMUTurn(.5, 58);
                 IMUHold(.5,58,1);
@@ -147,7 +147,7 @@ public class autoRR extends LinearOpMode {
                 IMUDrive(.5,-25, 58);
                 IMUTurn(.5,-90);
                 IMUHold(0.5,-90,1);
-                IMUDrive(.5,25.5,-90);
+                IMUDrive(.5,26.5,-90);
                 IMUHold(0.5,-90,1);
                 Strafe(0.5,32.5);
                 grabbie.setPower(1);
@@ -160,17 +160,17 @@ public class autoRR extends LinearOpMode {
                 moveWrist(-1,500);
                 break;
             case MIDDLE:
-                CloseGrabbie();
+                closeGrabbie();
                 IMUDrive(.5,34,0);
                 IMUHold(.5,0,1);
                 IMUDrive(.5,-20,0);
                 IMUHold(.5,0,1);
                 IMUTurn(0.5,-90);
                 IMUHold(0.5,-90, 1);
-                IMUDrive(0.5,35, -90);
-                Strafe(0.5,27);
+                IMUDrive(0.5,36, -90);
+                Strafe(0.5,22);
                 grabbie.setPower(1);
-                moveArm(0.5, 30);
+                moveArm(-0.5, 30);
                 sleep(100);
                 moveWrist(1,800);
                 sleep(500);
@@ -179,7 +179,7 @@ public class autoRR extends LinearOpMode {
                 moveWrist(-1,500);
                 break;
             case RIGHT:
-                CloseGrabbie();
+                closeGrabbie();
                 IMUDrive(.5,19,0);
                 IMUHold(.5,0,1);
                 IMUTurn(.5,-23);
@@ -191,7 +191,7 @@ public class autoRR extends LinearOpMode {
                 IMUHold(.5,-90,1);
                 IMUDrive(.5,37,-90);
                 IMUHold(0.5,-90,1);
-                Strafe(0.5,2);
+                Strafe(0.5,3);
                 grabbie.setPower(1);
                 moveArm(0.5, 30);
                 sleep(100);
@@ -472,12 +472,12 @@ public class autoRR extends LinearOpMode {
         }
     }
 
-    public void CloseGrabbie ()
+    public void closeGrabbie()
     {
         grabbie.setPower(1);
         sleep(500);
     }
-    public void OpenGrabbie ()
+    public void openGrabbie ()
     {
         grabbie.setPower(-1);
         sleep(500);

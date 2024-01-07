@@ -192,9 +192,9 @@ public class hangTest extends LinearOpMode {
             }
 
             if (gamepad2.left_stick_y < -0.1) {
-                body.setPower(1);
+                body.setPower(-1);
             } else if (gamepad2.left_stick_y > 0.1) {
-                body.setPower(-0.4);
+                body.setPower(0.4);
             } else if (gamepad2.left_stick_y < 0.1 && gamepad2.left_stick_y > -0.1) {
                 body.setPower(0);
             }
@@ -239,6 +239,11 @@ public class hangTest extends LinearOpMode {
                     sleep(1000);
                     telemetry.addLine("This is gonna work, trust");
                     telemetry.update();
+                }
+                if (gamepad1.x && gamepad1.y) {
+                    launcher.setPower(1);
+                }else {
+                    launcher.setPower(0);
                 }
 //                if (gamepad1.left_bumper) {
 //                    speedMode = 1;

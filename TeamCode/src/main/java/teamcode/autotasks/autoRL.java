@@ -133,32 +133,67 @@ public class autoRL extends LinearOpMode {
 
         switch (detectedLocation) {
             case LEFT:
+                closeGrabbie();
                 IMUDrive(.5,12,0);
                 IMUTurn(.5, 32);
-                IMUDrive(.5,14,32);
-                IMUDrive(.5,-25, 32);
-                IMUTurn(.5,90);
-                IMUDrive(.5,-80,90);
+                IMUHold(0.5,32, 1);
+                IMUDrive(.5,14.5,32);
+                IMUDrive(.5,-23, 32);
+                IMUTurn(.5,-90);
+                IMUHold(0.5,-90, 1);
+                IMUDrive(.5,84.5,-90);
+                IMUHold(0.5,-90, 1);
+                Strafe(0.5,49);
+                grabbie.setPower(1);
+                moveArm(-0.5, 30);
+                sleep(100);
+                moveWrist(1,800);
+                sleep(500);
+                grabbie.setPower(-1);
+                sleep(550);
+                moveWrist(-1,500);
                 break;
             case MIDDLE:
-                IMUDrive(.4,34,0);
+                closeGrabbie();
+                IMUDrive(.4,35.5,0);
                 IMUHold(.5,0,1);
-                IMUDrive(.4,-31,0);
-                IMUTurn(0.5,90);
-                IMUHold(0.5,90, 1);
-                IMUDrive(0.5,-83, 90);
+                IMUDrive(.4,-30,0);
+                IMUTurn(0.5,-90);
+                IMUHold(0.5,-90, 1);
+                IMUDrive(0.5,89, -90);
+                IMUHold(0.5,-90, 1);
+                Strafe(0.5,41);
+                grabbie.setPower(1);
+                moveArm(-0.5, 30);
+                sleep(100);
+                moveWrist(1,800);
+                sleep(500);
+                grabbie.setPower(-1);
+                sleep(550);
+                moveWrist(-1,500);
                 break;
             case RIGHT:
+                closeGrabbie();
                 IMUDrive(.4,16,0);
                 IMUHold(.4,0,1);
                 IMUTurn(.4,-32);
                 IMUHold(.4,-32,1);
-                IMUDrive(.4,16,-32);
+                IMUDrive(.4,16.5,-32);
                 IMUHold(.4,-32,1);
-                IMUDrive(.4,-28,-32);
+                IMUDrive(.4,-29,-32);
                 IMUTurn(.4,-90);
                 IMUHold(.4,-90,1);
-                IMUDrive(.4,82,-90);
+                IMUDrive(.4,98.5,-90);
+                IMUHold(.4,-90,1);
+                Strafe(0.5,23);
+                grabbie.setPower(1);
+                moveArm(-0.5, 30);
+                sleep(100);
+                moveWrist(1,800);
+                sleep(500);
+                grabbie.setPower(-1);
+                sleep(550);
+                moveWrist(-1,500);
                 break;
         }
 
@@ -429,14 +464,34 @@ public class autoRL extends LinearOpMode {
         }
     }
 
-    public void OpenGrabbie ()
+    public void closeGrabbie()
+    {
+        grabbie.setPower(1);
+        sleep(500);
+    }
+    public void openGrabbie ()
     {
         grabbie.setPower(-1);
         sleep(500);
     }
-    public void CloseGrabbie ()
+    public void moveWrist(int power, int time)
     {
-        grabbie.setPower(1);
-        sleep(500);
+        wrist.setPower(-power);
+        sleep(time);
+        wrist.setPower(0);
+    }
+    public void moveArm (double power, double inches)
+    {
+        int move = (int)(Math.round(inches * conversions));
+        body.setTargetPosition(body.getCurrentPosition() +move);
+        body.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        body.setPower(power);
+        while (body.isBusy())
+        {
+            if(exit)
+            {
+                body.setPower(0);
+            }
+        }
     }
 }
