@@ -10,7 +10,7 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
-
+//Lyle est yucky
 public class TrianglynotDuckyVisionBL {
     OpMode opMode;
     OpenCvCamera camera;
@@ -140,7 +140,7 @@ public class TrianglynotDuckyVisionBL {
         this.show_value = show;
     }
 }
-
+//Lyle est yucky
 class RGBBL {
     public int red = 0;
     public int green = 0;
