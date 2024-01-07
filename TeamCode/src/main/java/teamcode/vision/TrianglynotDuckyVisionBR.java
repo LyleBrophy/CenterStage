@@ -128,7 +128,7 @@ public class TrianglynotDuckyVisionBR {
             blue /= total;
             return new RGB(red, green, blue);
         }
-
+        //Lyle est yucky
         private void sendTelemetry() {
             opMode.telemetry.addLine("MIDDLE :" + " R " + middleBox.red + " G " + middleBox.green + " B " + middleBox.blue);
             opMode.telemetry.addLine("RIGHT :" + " R " + leftBox.red + " G " + leftBox.green + " B " + leftBox.blue);
@@ -140,7 +140,7 @@ public class TrianglynotDuckyVisionBR {
         this.show_value = show;
     }
 }
-
+//Lyle est yucky
 class RGBBR {
     public int red = 0;
     public int green = 0;

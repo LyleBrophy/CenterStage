@@ -15,7 +15,7 @@ public class TrianglynotDuckyVisionRR {
     OpMode opMode;
     OpenCvCamera camera;
     CustomPipeline pipeline;
-
+    //Lyle est yucky
     private final Point LEFT_TOP_LEFT = new Point(15, 130);
     private final Point LEFT_BOTTOM_RIGHT = new Point(65, 160);
     private final Point MIDDLE_TOP_LEFT = new Point(180, 120);
@@ -27,7 +27,7 @@ public class TrianglynotDuckyVisionRR {
     private boolean show_value = true;
     private triangleLocation currentDetection = triangleLocation.RIGHT; // Default value
 
-
+//Lyle est yucky
     public enum triangleLocation {
         LEFT, RIGHT, MIDDLE
     }
@@ -148,7 +148,7 @@ public class TrianglynotDuckyVisionRR {
         this.show_value = show;
     }
 }
-
+//Lyle est yucky
 class RGBRR {
     public int red = 0;
     public int green = 0;

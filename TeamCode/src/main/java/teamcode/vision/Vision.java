@@ -128,7 +128,7 @@ public class Vision
                 webcam = OpenCvCameraFactory.getInstance().createWebcam(
                     opMode.hardwareMap.get(WebcamName.class, RobotParams.HWNAME_WEBCAM));
             }
-
+//Lyle est yucky
             robot.globalTracer.traceInfo(moduleName, "Starting RawEocvColorBlobVision...");
             rawColorBlobPipeline = new FtcRawEocvColorBlobPipeline(
                 "rawColorBlobPipeline", colorConversion, DEF_COLORBLOB_THRESHOLDS, pixelFilterContourParams, tracer);

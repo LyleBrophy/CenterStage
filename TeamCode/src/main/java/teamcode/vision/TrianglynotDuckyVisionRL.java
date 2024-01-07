@@ -15,7 +15,7 @@ public class TrianglynotDuckyVisionRL {
     OpMode opMode;
     OpenCvCamera camera;
     CustomPipeline pipeline;
-
+    //Lyle est yucky
     private final Point LEFT_TOP_LEFT = new Point(100, 120);
     private final Point LEFT_BOTTOM_RIGHT = new Point(150, 150);
     private final Point MIDDLE_TOP_LEFT = new Point(230, 120);
@@ -145,7 +145,7 @@ class RGB {
     public int red = 0;
     public int green = 0;
     public int blue = 0;
-
+    //Lyle est yucky
     public RGB() {
     }
 
