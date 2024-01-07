@@ -15,7 +15,8 @@ public class hangTest extends LinearOpMode {
 
     public DcMotor[] drivetrain = new DcMotor[4];
     DcMotor body;
-    CRServo wrist, rightHanger, leftHanger;
+    Dcmotor wrist;
+    CRServo rightHanger, leftHanger;
     CRServo launcher;
     CRServo grabbie;
 
@@ -30,7 +31,8 @@ public class hangTest extends LinearOpMode {
         motorBL = hardwareMap.get(DcMotor.class, "motorBR");
         body = hardwareMap.get(DcMotor.class, "body");
 //        arm = hardwareMap.get(DcMotor.class, "arm");
-        wrist = hardwareMap.get(CRServo.class, "wrist");
+        wrist = hardwareMap.get(DcMotor.class, "wrist");
+
         grabbie = hardwareMap.get(CRServo.class, "grabbie");
         rightHanger = hardwareMap.get(CRServo.class, "rightHanger");
         leftHanger = hardwareMap.get(CRServo.class, "leftHanger");
@@ -44,16 +46,17 @@ public class hangTest extends LinearOpMode {
         motorFR.setPower(0);
         motorBL.setPower(0);
         motorBR.setPower(0);
-
         wrist.setPower(0);
+
         launcher.setPower(0);
         rightHanger.setPower(0);
         leftHanger.setPower(0);
 
+        wrist.setDirection(DcMotorSimple.Direction.FORWARD);
+        wrist.setPower(0);
+
         body.setDirection(DcMotorSimple.Direction.FORWARD);
-//        arm.setDirection(DcMotorSimple.Direction.FORWARD);
         body.setPower(0);
-//        arm.setPower(0);
 
         motorFL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorBR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -61,7 +64,7 @@ public class hangTest extends LinearOpMode {
         motorBL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         body.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        wrist.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         TrianglynotDuckyVisionBL detector = new TrianglynotDuckyVisionBL(this);
 
@@ -208,9 +211,9 @@ public class hangTest extends LinearOpMode {
 //                arm.setPower(0);
 //            }
             if (gamepad2.dpad_up) {
-                wrist.setPower(0.7);
+                wrist.setPower(0.5);
             } else if (gamepad2.dpad_down) {
-                wrist.setPower(-0.3);
+                wrist.setPower(-0.2);
             } else if (gamepad2.dpad_up == false && gamepad2.dpad_down == false) {
                 wrist.setPower(0);
             }

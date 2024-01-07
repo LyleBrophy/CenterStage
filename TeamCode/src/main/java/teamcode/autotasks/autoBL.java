@@ -20,8 +20,8 @@ public class autoBL extends LinearOpMode {
     /* Declare OpMode members. */
     public DcMotor[] drivetrain = new DcMotor[4];
 
-    public DcMotor motorFL, motorFR, motorBR, motorBL, body;
-    CRServo wrist, rightHanger, leftHanger;
+    public DcMotor motorFL, motorFR, motorBR, motorBL, body, wrist;
+    CRServo rightHanger, leftHanger;
     CRServo launcher;
     private CRServo grabbie;
     private BNO055IMU imu = null;
@@ -31,7 +31,7 @@ public class autoBL extends LinearOpMode {
 
     private double  targetHeading = 0;
     private double  driveSpeed    = 0;
-    private double  turnSpeed     = 0; 
+    private double  turnSpeed     = 0;
     private double  leftSpeed     = 0;
     private double  rightSpeed    = 0;
     private int     frontleftTarget    = 0;
@@ -79,8 +79,8 @@ public class autoBL extends LinearOpMode {
         motorBR = hardwareMap.get(DcMotor.class, "motorBL");
         motorBL = hardwareMap.get(DcMotor.class, "motorBR");
         body = hardwareMap.get(DcMotor.class, "body");
-//        arm = hardwareMap.get(DcMotor.class, "arm");
-        wrist = hardwareMap.get(CRServo.class, "wrist");
+        wrist = hardwareMap.get(DcMotor.class, "wrist");
+
         grabbie = hardwareMap.get(CRServo.class, "grabbie");
         rightHanger = hardwareMap.get(CRServo.class, "rightHanger");
         leftHanger = hardwareMap.get(CRServo.class, "leftHanger");
@@ -101,9 +101,10 @@ public class autoBL extends LinearOpMode {
         imu.initialize(parameters);
 
         body.setDirection(DcMotorSimple.Direction.FORWARD);
-//        arm.setDirection(DcMotorSimple.Direction.FORWARD);
+        wrist.setDirection(DcMotorSimple.Direction.FORWARD);
+
         body.setPower(0);
-//        arm.setPower(0);
+        wrist.setPower(0);
 
         motorFL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorBR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -111,6 +112,7 @@ public class autoBL extends LinearOpMode {
         motorBL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         body.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        wrist.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         visionSystem = new TrianglynotDuckyVisionBL(this);
 
 
@@ -124,6 +126,7 @@ public class autoBL extends LinearOpMode {
         motorBL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         body.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        wrist.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         resetHeading();
 
 
@@ -475,9 +478,17 @@ public class autoBL extends LinearOpMode {
     }
     public void moveWrist(int power, int time)
     {
-        wrist.setPower(-power);
-        sleep(time);
-        wrist.setPower(0);
+        int move = (int)(Math.round(inches * conversions));
+        wrist.setTargetPosition(body.getCurrentPosition() +move);
+        wrist.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        wrist.setPower(power);
+        while (body.isBusy())
+        {
+            if(exit)
+            {
+                body.setPower(0);
+            }
+        }
     }
     public void moveBody(double power, double inches)
     {
