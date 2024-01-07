@@ -31,7 +31,7 @@ public class autoBL extends LinearOpMode {
 
     private double  targetHeading = 0;
     private double  driveSpeed    = 0;
-    private double  turnSpeed     = 0;
+    private double  turnSpeed     = 0; 
     private double  leftSpeed     = 0;
     private double  rightSpeed    = 0;
     private int     frontleftTarget    = 0;
