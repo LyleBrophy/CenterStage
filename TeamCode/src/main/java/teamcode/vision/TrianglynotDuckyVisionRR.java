@@ -11,7 +11,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-public class TrianglynotDuckyVisionBR {
+public class TrianglynotDuckyVisionRR {
     OpMode opMode;
     OpenCvCamera camera;
     CustomPipeline pipeline;
@@ -32,7 +32,7 @@ public class TrianglynotDuckyVisionBR {
         LEFT, RIGHT, MIDDLE
     }
 
-    public TrianglynotDuckyVisionBR(OpMode op) {
+    public TrianglynotDuckyVisionRR(OpMode op) {
         opMode = op;
         int cameraMonitorViewId = opMode.hardwareMap.appContext.getResources().getIdentifier(
                 "cameraMonitorViewId", "id", opMode.hardwareMap.appContext.getPackageName());
@@ -60,29 +60,37 @@ public class TrianglynotDuckyVisionBR {
         if (show_value) {
             opMode.telemetry.addData("Middle Box Value: ", middleBoxValue);
             opMode.telemetry.addData("Left Box Value: ", leftBoxValue);
+            opMode.telemetry.update();
         }
 
         int dif = middleBoxValue - leftBoxValue;
-        if (dif <= -50) {
+        if (dif <= -150) {
             currentDetection = triangleLocation.MIDDLE;
             opMode.telemetry.addLine("MIDDLE");
-        } else if (Math.abs(dif) > 130) {
+            opMode.telemetry.update();
+        } else if (Math.abs(dif) > 150) {
             currentDetection = triangleLocation.LEFT;
             opMode.telemetry.addLine("LEFT");
+            opMode.telemetry.update();
         } else {
             currentDetection = triangleLocation.RIGHT;
             opMode.telemetry.addLine("RIGHT");
+            opMode.telemetry.update();
         }
         switch (currentDetection) {
             case LEFT:
                 opMode.telemetry.addLine("LEFT");
+                opMode.telemetry.update();
                 break;
             case MIDDLE:
                 opMode.telemetry.addLine("MIDDLE");
+                opMode.telemetry.update();
                 break;
             case RIGHT:
                 opMode.telemetry.addLine("RIGHT");
+                opMode.telemetry.update();
                 break;
+
         }
         opMode.telemetry.update();
         return currentDetection;
@@ -141,15 +149,15 @@ public class TrianglynotDuckyVisionBR {
     }
 }
 
-class RGBBR {
+class RGBRR {
     public int red = 0;
     public int green = 0;
     public int blue = 0;
 
-    public RGBBR() {
+    public RGBRR() {
     }
 
-    public RGBBR(int r, int g, int b) {
+    public RGBRR(int r, int g, int b) {
         red = r;
         green = g;
         blue = b;

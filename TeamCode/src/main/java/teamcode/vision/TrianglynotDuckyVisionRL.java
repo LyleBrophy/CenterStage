@@ -11,15 +11,15 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-public class TrianglynotDuckyVisionBR {
+public class TrianglynotDuckyVisionRL {
     OpMode opMode;
     OpenCvCamera camera;
     CustomPipeline pipeline;
 
-    private final Point LEFT_TOP_LEFT = new Point(15, 130);
-    private final Point LEFT_BOTTOM_RIGHT = new Point(65, 160);
-    private final Point MIDDLE_TOP_LEFT = new Point(180, 120);
-    private final Point MIDDLE_BOTTOM_RIGHT = new Point(230, 150);
+    private final Point LEFT_TOP_LEFT = new Point(100, 120);
+    private final Point LEFT_BOTTOM_RIGHT = new Point(150, 150);
+    private final Point MIDDLE_TOP_LEFT = new Point(230, 120);
+    private final Point MIDDLE_BOTTOM_RIGHT = new Point(280, 150);
 
     private RGB middleBox = new RGB(); // Instantiated
     private RGB leftBox = new RGB();   // Instantiated
@@ -32,11 +32,11 @@ public class TrianglynotDuckyVisionBR {
         LEFT, RIGHT, MIDDLE
     }
 
-    public TrianglynotDuckyVisionBR(OpMode op) {
+    public TrianglynotDuckyVisionRL(OpMode op) {
         opMode = op;
         int cameraMonitorViewId = opMode.hardwareMap.appContext.getResources().getIdentifier(
                 "cameraMonitorViewId", "id", opMode.hardwareMap.appContext.getPackageName());
-        camera = OpenCvCameraFactory.getInstance().createWebcam(opMode.hardwareMap.get(WebcamName.class, "camera1"), cameraMonitorViewId); //I just wanna rock, bodyadya
+        camera = OpenCvCameraFactory.getInstance().createWebcam(opMode.hardwareMap.get(WebcamName.class, "camera1"), cameraMonitorViewId);
 
         pipeline = new CustomPipeline();
         camera.openCameraDevice();
@@ -66,7 +66,7 @@ public class TrianglynotDuckyVisionBR {
         if (dif <= -50) {
             currentDetection = triangleLocation.MIDDLE;
             opMode.telemetry.addLine("MIDDLE");
-        } else if (Math.abs(dif) > 130) {
+        } else if (Math.abs(dif) > 150) {
             currentDetection = triangleLocation.LEFT;
             opMode.telemetry.addLine("LEFT");
         } else {
@@ -141,15 +141,15 @@ public class TrianglynotDuckyVisionBR {
     }
 }
 
-class RGBBR {
+class RGB {
     public int red = 0;
     public int green = 0;
     public int blue = 0;
 
-    public RGBBR() {
+    public RGB() {
     }
 
-    public RGBBR(int r, int g, int b) {
+    public RGB(int r, int g, int b) {
         red = r;
         green = g;
         blue = b;
